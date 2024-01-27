@@ -6,7 +6,7 @@ from cmd import Cmd
 from typing import IO
 
 __author__ = "MCTF-Alpha-27"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 class Solfeggio(Cmd):
     intro = "欢迎使用视唱练耳命令行\n"
@@ -20,14 +20,15 @@ class Solfeggio(Cmd):
         self.note_freqs = [262, 294, 330, 349, 392, 440, 494]
 
     def play_note(self, frequency, duration=1000):
-        if not frequency.isdigit():
-            note = next((key for key, value in self.number_to_name.items() if value == frequency), None)
-            if not note:
-                print("唱名名称无效。\n")
-                return
-            winsound.Beep(self.note_freqs[int(note) - 1], duration)
+        if type(frequency) is str:
+            if not frequency.isdigit():
+                note = next((key for key, value in self.number_to_name.items() if value == frequency), None)
+                if not note:
+                    print("唱名名称无效。\n")
+                    return
+                winsound.Beep(self.note_freqs[int(note) - 1], duration)
         else:
-            if not 1 <= int(frequency) <= 7:
+            if not 1 <= frequency <= 7:
                 print("唱名的简谱写法无效。\n")
                 return
             winsound.Beep(self.note_freqs[int(frequency) - 1], duration)
